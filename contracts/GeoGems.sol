@@ -46,7 +46,7 @@ contract Ownable {
 
   function transferOwnership(address newOwner) public onlyOwner {
     require(newOwner != address(0));
-    emit OwnershipTransferred(owner, newOwner);
+    OwnershipTransferred(owner, newOwner);
     owner = newOwner;
   }
 
@@ -100,7 +100,7 @@ contract GeoGems is ERC20 {
     // SafeMath.sub will throw if there is not enough balance.
     balances[msg.sender] = balances[msg.sender].sub(_value);
     balances[_to] = balances[_to].add(_value);
-    emit Transfer(msg.sender, _to, _value);
+    Transfer(msg.sender, _to, _value);
     return true;
   }
   
@@ -120,7 +120,7 @@ contract GeoGems is ERC20 {
     balances[_from] = balances[_from].sub(_value);
     balances[_to] = balances[_to].add(_value);
     allowed[_from][msg.sender] = allowed[_from][msg.sender].sub(_value);
-    emit Transfer(_from, _to, _value);
+    Transfer(_from, _to, _value);
     return true;
   }
 
@@ -128,7 +128,7 @@ contract GeoGems is ERC20 {
     require(_spender != address(0));
     require(0x0 != msg.sender);
     allowed[msg.sender][_spender] = _value;
-    emit Approval(msg.sender, _spender, _value);
+    Approval(msg.sender, _spender, _value);
     return true;
   }
 
@@ -139,7 +139,7 @@ contract GeoGems is ERC20 {
 
   function increaseApproval(address _spender, uint _addedValue) public returns (bool) {
     allowed[msg.sender][_spender] = allowed[msg.sender][_spender].add(_addedValue);
-    emit Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
+    Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
     return true;
   }
 
@@ -150,7 +150,7 @@ contract GeoGems is ERC20 {
     } else {
       allowed[msg.sender][_spender] = oldValue.sub(_subtractedValue);
     }
-    emit Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
+    Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
     return true;
   }
 
@@ -166,30 +166,30 @@ contract GeoGems is ERC20 {
   }
 
   function mint(address _to, uint256 _amount) onlyOwner canMint public returns (bool) {
-    //assert(totalSupply_.add(_amount) <= 10000000000000 * (10 ** uint256(decimals)));
+    assert(totalSupply_.add(_amount) <= 10000000000000 * (10 ** uint256(decimals)));
     totalSupply_ = totalSupply_.add(_amount);
     balances[_to] = balances[_to].add(_amount);
-    emit Mint(_to, _amount);
-    emit Transfer(address(0), _to, _amount);
+    Mint(_to, _amount);
+    Transfer(address(0), _to, _amount);
     return true;
   }
-  event NameChangedTo (string value);
-  event SymbolChangedTo (string value);
+  NameChangedTo (string value);
+  SymbolChangedTo (string value);
   
   function setName(string _name) onlyOwner public {
         name = _name;
-        emit NameChangedTo(_name);
+        NameChangedTo(_name);
     }
     
   function setSymbol(string _symbol) onlyOwner public {
         symbol = _symbol;
-        emit SymbolChangedTo(_symbol);
+        SymbolChangedTo(_symbol);
     }
 
 
   function finishMinting() onlyOwner canMint public returns (bool) {
     mintingFinished = true;
-    emit MintFinished();
+    MintFinished();
     return true;
   }
 
