@@ -166,7 +166,7 @@ contract GeoGems is ERC20 {
   }
 
   function mint(address _to, uint256 _amount) onlyOwner canMint public returns (bool) {
-    assert(totalSupply_.add(_amount) <= 10000000000000 * (10 ** uint256(decimals)));
+    //assert(totalSupply_.add(_amount) <= 10000000000000 * (10 ** uint256(decimals)));
     totalSupply_ = totalSupply_.add(_amount);
     balances[_to] = balances[_to].add(_amount);
     emit Mint(_to, _amount);
